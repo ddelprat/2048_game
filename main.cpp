@@ -1,8 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <cstdlib>
+#include <iostream>
 
 #include <QLocale>
 #include <QTranslator>
+using namespace std;
 
 int main(int argc, char *argv[])
 {
