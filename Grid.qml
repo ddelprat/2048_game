@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Controls 2.15
 
 GridView {
     id: grid
@@ -12,13 +13,13 @@ GridView {
         width: grid.cellWidth
         height: grid.cellHeight
         color: "#cccccc"
-        margin: 10
-        radius: Math.min(width, height) / 4
+        radius: 5
 
         Text {
             text: model.display
             font.pixelSize: grid.cellHeight / 2
             anchors.centerIn: parent
+            visible: (model.value !== 0)
         }
     }
 }

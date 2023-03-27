@@ -81,22 +81,9 @@ Window {
                     id: myCase
                     item1Width: grid.cellWidth
                     item1Height: grid.cellHeight
-                    rectangleColor: "#d9d9d9"
+                    //rectangleColor: "#d9d9d9"
                     text1Text: index
                 }
-        /*GridView {
-                id: grid
-                anchors.fill: parent
-                cellWidth: rectangle1.width / 4
-                cellHeight: rectangle1.height / 4
-                model: 16
-                delegate: Case {
-                    id: myCase
-                    item1Width: grid.cellWidth
-                    item1Height: grid.cellHeight
-                    rectangleColor: "#333333"
-                    text1Text: index
-                }*/
             }
 
     }

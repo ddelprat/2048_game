@@ -14,14 +14,16 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: (text1.text === "0") ? "#ff0000" : "#f5f5f5"
+        color: valueToColor(text1.text)
         border.color: "black"
         border.width: 1
         anchors.fill: parent
+        radius: 5
+
 
         Text {
             id: text1
-            text: qsTr("")
+            text: ""
             anchors.centerIn: parent
             font.pixelSize: Math.min(parent.width, parent.height) * 0.8
             maximumLineCount: 1
@@ -30,6 +32,25 @@ Item {
             font.family: "Arial"
             font.bold: true
             clip: true
+            visible: (text1.text !== "0")
+        }
+
+        function valueToColor(value) {
+            switch (value) {
+                case "0": return "#ff5555";
+                case "2": return "#ffff55";
+                case "4": return "#ff5555";
+                case "8": return "#5555ff";
+                case "16": return "#ffaa55";
+                case "32": return "#55ff55";
+                case "64": return "#aa5500";
+                case "128": return "#ff55ff";
+                case "256": return "#5500aa";
+                case "512": return "#aaaa55";
+                case "1024": return "#550000";
+                case "2048": return "#ff55aa";
+            }
+            return "#ff55aa"
         }
     }
 }
