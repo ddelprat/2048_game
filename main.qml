@@ -66,5 +66,38 @@ Window {
         height: 420
         color: "#5f4444"
         radius: 10
+        GridView {
+                id: grid
+                anchors.fill: parent
+                x: 15
+                y: 190
+                width: 420
+                height: 420
+                cellWidth: (grid.width) / 4
+                cellHeight: (grid.height) / 4
+                //spacing: 5
+                model: 16
+                delegate: Case {
+                    id: myCase
+                    item1Width: grid.cellWidth
+                    item1Height: grid.cellHeight
+                    rectangleColor: "#d9d9d9"
+                    text1Text: index
+                }
+        /*GridView {
+                id: grid
+                anchors.fill: parent
+                cellWidth: rectangle1.width / 4
+                cellHeight: rectangle1.height / 4
+                model: 16
+                delegate: Case {
+                    id: myCase
+                    item1Width: grid.cellWidth
+                    item1Height: grid.cellHeight
+                    rectangleColor: "#333333"
+                    text1Text: index
+                }*/
+            }
+
     }
 }

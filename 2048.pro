@@ -6,6 +6,7 @@ QT += quick
 
 SOURCES += \
         damier.cpp \
+        gridmodel.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -30,4 +31,5 @@ DISTFILES += \
     Case.qml
 
 HEADERS += \
-    damier.h
+    damier.h \
+    gridmodel.h
