@@ -6,7 +6,7 @@ Window {
     height: 800
     visible: true
     color: "#f4f0c9"
-    title: qsTr("Hello World")
+    title: qsTr("2048")
 
     Rectangle {
         id: rectangle
