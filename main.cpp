@@ -10,16 +10,9 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-
+/*
 Damier Test = Damier(4,4,0);
-//Test.Print();
-//Test.Spawn();
-//Test.Print();
 
-//Test.Set(2,0,2);
-//Test.Set(2,1,2);
-//Test.Set(2,2,2);
-//Test.Set(2,3,2);
 Test.Print();
 Test.play_right();
 Test.Print();
@@ -30,6 +23,7 @@ Test.Print();
 Test.play_down();
 Test.Print();
 cout << Test.score << endl;
+*/
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
