@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <cstdlib>
 #include <iostream>
+#include<damier.h>
 
 #include <QLocale>
 #include <QTranslator>
@@ -9,6 +10,21 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+/*
+Damier Test = Damier(4,4,0);
+
+Test.Print();
+Test.play_right();
+Test.Print();
+Test.play_left();
+Test.Print();
+Test.play_up();
+Test.Print();
+Test.play_down();
+Test.Print();
+cout << Test.score << endl;
+*/
+
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
