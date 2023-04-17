@@ -45,17 +45,5 @@ int main(int argc, char *argv[])
         QVariant qVariantBoard = QVariant::fromValue(board);
         rootObject->setProperty("board", qVariantBoard);
 
-   /* QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url, &engine, board](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-        else if (obj == engine.rootObjects().value(0)) {
-            engine.rootObjects().first()->setProperty("board", QVariant::fromValue(board));
-                    }
-    }, Qt::QueuedConnection);
-    engine.load(url);*/
-
     return app.exec();
 }
