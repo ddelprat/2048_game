@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <cstdlib>
 #include <iostream>
+#include<damier.h>
+
 #include <QLocale>
 #include <QTranslator>
 #include <QGuiApplication>
@@ -15,11 +17,20 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    int taille=4;
-    vector<vector<int>> board(taille, vector<int>(taille, 0));
-    board[0][1]=2;
-    board[1][0]=4;
-    board[2][0]=32;
+/*
+Damier Test = Damier(4,4,0);
+
+Test.Print();
+Test.play_right();
+Test.Print();
+Test.play_left();
+Test.Print();
+Test.play_up();
+Test.Print();
+Test.play_down();
+Test.Print();
+cout << Test.score << endl;
+*/
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
