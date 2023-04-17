@@ -6,7 +6,12 @@ Window {
     height: 800
     visible: true
     color: "#f4f0c9"
-    title: qsTr("Hello World")
+    title: qsTr("2048")
+
+
+    property variant board :[0,2,0,0,4,6,8,0,2,0,0,4,6,8,32,64]
+
+
 
     Rectangle {
         id: rectangle
@@ -66,6 +71,7 @@ Window {
         height: 420
         color: "#5f4444"
         radius: 10
+
         GridView {
                 id: grid
                 anchors.fill: parent
@@ -77,12 +83,12 @@ Window {
                 cellHeight: (grid.height) / 4
                 //spacing: 5
                 model: 16
+
                 delegate: Case {
                     id: myCase
                     item1Width: grid.cellWidth
                     item1Height: grid.cellHeight
-                    //rectangleColor: "#d9d9d9"
-                    text1Text: index
+                    text1Text: board[index % 4][Math.floor(index / 4)]
                 }
             }
 

@@ -37,7 +37,7 @@ Item {
 
         function valueToColor(value) {
             switch (value) {
-                case "0": return "#ff5555";
+                case "0": return "#7A7A7A";
                 case "2": return "#ffff55";
                 case "4": return "#ff5555";
                 case "8": return "#5555ff";
