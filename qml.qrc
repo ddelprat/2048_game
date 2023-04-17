@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Case.qml</file>
+        <file>Grid.qml</file>
     </qresource>
 </RCC>

@@ -6,6 +6,13 @@
 
 #include <QLocale>
 #include <QTranslator>
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QLocale>
+#include <QTranslator>
+#include <QVariant>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 int main(int argc, char *argv[])
@@ -30,6 +37,7 @@ cout << Test.score << endl;
 #endif
     QGuiApplication app(argc, argv);
 
+
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -41,13 +49,12 @@ cout << Test.score << endl;
     }
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+        const QUrl url(QStringLiteral("qrc:/main.qml"));
+        engine.load(url);
+
+        QObject *rootObject = engine.rootObjects().first();
+        QVariant qVariantBoard = QVariant::fromValue(board);
+        rootObject->setProperty("board", qVariantBoard);
 
     return app.exec();
 }
