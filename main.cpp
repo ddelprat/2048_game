@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <cstdlib>
 #include <iostream>
-#include<damier.h>
+#include <damier.h>
 
 #include <QLocale>
 #include <QTranslator>
@@ -14,29 +14,24 @@
 #include <vector>
 #include <iostream>
 using namespace std;
+/*
+void playUp(std::vector<std::vector<int>>& board)
+{
+    board.play_up();
+}*/
+
 
 int main(int argc, char *argv[])
 {
-/*
-Damier Test = Damier(4,4,0);
+    int taille = 4;
+    Damier BoardGame = Damier(taille, taille, 0);
+    std::vector<std::vector<int>> board = BoardGame.getBoard();
 
-Test.Print();
-Test.play_right();
-Test.Print();
-Test.play_left();
-Test.Print();
-Test.play_up();
-Test.Print();
-Test.play_down();
-Test.Print();
-cout << Test.score << endl;
-*/
-
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+    #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
-    QGuiApplication app(argc, argv);
+    #endif
 
+    QGuiApplication app(argc, argv);
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -49,12 +44,17 @@ cout << Test.score << endl;
     }
 
     QQmlApplicationEngine engine;
-        const QUrl url(QStringLiteral("qrc:/main.qml"));
-        engine.load(url);
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    engine.load(url);
 
-        QObject *rootObject = engine.rootObjects().first();
-        QVariant qVariantBoard = QVariant::fromValue(board);
-        rootObject->setProperty("board", qVariantBoard);
+    QObject *rootObject = engine.rootObjects().first();
+    QVariant qVariantBoard = QVariant::fromValue(board);
+    rootObject->setProperty("board", qVariantBoard);
 
+    /*
+    // Ajouter le contexte pour la fonction playUp
+    QQmlContext* context = engine.rootContext();
+    context->setContextProperty("playUp", &playUp);
+*/
     return app.exec();
 }

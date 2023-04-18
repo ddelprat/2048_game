@@ -102,6 +102,15 @@ void Damier::Spawn(){
 }
 
 
+std::vector<std::vector<int>> Damier::getBoard() const {
+    std::vector<std::vector<int>> board(L, std::vector<int>(C, 0));
+    for (int i = 0; i < L; i++) {
+        for (int j = 0; j < C; j++) {
+            board[i][j] = T[i][j];
+        }
+    }
+    return board;
+}
 
 // Quand le joueur joue vers le haut
 void Damier::play_up(){

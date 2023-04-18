@@ -22,12 +22,14 @@ public:
     void play_down();
     void play_left();
     void play_right();
+    int** T;
+    std::vector<std::vector<int>> getBoard() const;
 
 
 private:
     int L;
     int C;
-    int** T;
+
 
     // Méthode privée (factorisation  de code)
     void Alloc(int l, int c);
