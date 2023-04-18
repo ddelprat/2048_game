@@ -8,8 +8,19 @@ Window {
     color: "#f4f0c9"
     title: qsTr("2048")
 
+    Keys.onUpPressed: {
+            BoardGame.play_up();
+            board = BoardGame.getBoard();
+            var qVariantBoard = Qt.binding(function() { return board; });
+            rootObject.setProperty("board", qVariantBoard);
+        }
 
-    property variant board :[0,2,0,0,4,6,8,0,2,0,0,4,6,8,32,64]
+    property variant board : [
+        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
+        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
+        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
+        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)]
+    ]
 
 
 

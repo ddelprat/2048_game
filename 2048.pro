@@ -6,6 +6,7 @@ QT += quick
 
 SOURCES += \
         damier.cpp \
+        gamelogic.cpp \
         gridmodel.cpp \
         main.cpp
 
@@ -32,4 +33,5 @@ DISTFILES += \
 
 HEADERS += \
     damier.h \
+    gamelogic.h \
     gridmodel.h
