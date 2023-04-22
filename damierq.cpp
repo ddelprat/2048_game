@@ -1,49 +1,70 @@
-#include "damier.h"
+#include "damierq.h"
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <time.h>
 using namespace std;
+/*DamierQ::DamierQ(int rows, int cols, int defaultValue, QObject *parent)
+    : QObject(parent), m_board(rows, QVector<int>(cols, defaultValue))
+{
+    emit boardChanged(); // émet le signal boardChanged avec le damier initialisé
+}
+*/
 
-Damier::Damier(int l, int c, int vd)
+DamierQ::DamierQ(int l, int c, int vd, QObject *parent)
+    : QObject(parent)
+{
+    Alloc(l,c);
+    Init();
+    emit boardChanged();
+}
+/*
+DamierQ::DamierQ(QObject *parent)
+    : QObject{parent}
+{
+    emit boardChanged();
+}
+
+DamierQ::DamierQ(int l, int c, int vd, QObject *parent) : QObject(parent)
 {
     Alloc(l, c);
     Init();
+}*/
 
-}
-
-Damier::Damier(const Damier &D)
+DamierQ::DamierQ(const DamierQ &D, QObject *parent) : QObject(parent)
 {
     Alloc(D.L, D.C);
     for(int i=0; i<L; i++)
         for(int j=0; j<C; j++)
             T[i][j] = D.T[i][j];
+    emit boardChanged();
 }
 
-
-Damier::~Damier(){
-    if (T != NULL) {
+DamierQ::~DamierQ(){
+    if (T != nullptr) {
         Free();
-        T = NULL;
+        T = nullptr;
     }
 }
 
-void Damier::Free(){
+
+void DamierQ::Free(){
     for (int i=0; i<L; i++) {
         delete [] T[i];
     }
     delete [] T;
 }
 
-void Damier::Alloc(int l, int c){
+void DamierQ::Alloc(int l, int c){
     L = l;
     C = c;
     T = new int*[L];
     for(int i=0; i<L; i++)
         T[i] = new int[C];
+    emit boardChanged();
 }
 
-void Damier::Print(){
+void DamierQ::Print(){
     cout << endl;
     for(int i=0; i<L; i++) {
         cout << endl;
@@ -52,7 +73,7 @@ void Damier::Print(){
     }
 }
 
-void Damier::Init(){
+void DamierQ::Init(){
     for(int i=0; i<L; i++)
         for(int j=0; j<C; j++)
             T[i][j]= 0;
@@ -64,21 +85,19 @@ void Damier::Init(){
     T[i_0][j_0] = valeur;
 }
 
-void Damier::Set(int l, int c, int value) {
+void DamierQ::Set(int l, int c, int value) {
     if ((l>=0) && (l<L) && (c>=0) & (c<C))
         T[l][c]=value;
 }
 
-
-void Damier::ReDim(int l, int c, int vd) {
+void DamierQ::ReDim(int l, int c, int vd) {
     Free();
     Alloc(l, c);
     Init();
 }
 
 // La fonction spawn fait apparaître un 2 ou un 4 sur une case aléatoire
-
-void Damier::Spawn(){
+void DamierQ::Spawn(){
     // On répertorie l'ensemble des indices des cases vides
     vector<tuple<int,int>> case_vide;
     for(int i=0;i<L;i++){
@@ -102,8 +121,7 @@ void Damier::Spawn(){
     //int j_0 = rand() % C;
 }
 
-
-std::vector<std::vector<int>> Damier::getBoard() const {
+std::vector<std::vector<int>> DamierQ::getBoard() const {
     std::vector<std::vector<int>> board(L, std::vector<int>(C, 0));
     for (int i = 0; i < L; i++) {
         for (int j = 0; j < C; j++) {
@@ -113,7 +131,7 @@ std::vector<std::vector<int>> Damier::getBoard() const {
     return board;
 }
 
-QVector<QVector<int>> Damier::getBoardAsQvector() const{
+QVector<QVector<int>> DamierQ::getBoardAsQvector() const{
     QVector<QVector<int>> qBoard(L, QVector<int>(L));
     for (int i = 0; i < L; i++) {
         for (int j = 0; j < C; j++) {
@@ -124,12 +142,8 @@ QVector<QVector<int>> Damier::getBoardAsQvector() const{
 
 }
 
-/*void Damier::boardChanged() {
-    emit boardChanged();
-}*/
-
 // Quand le joueur joue vers le haut
-void Damier::play_up(){
+void DamierQ::play_up(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
     for(int col=0;col<C;col++){
@@ -157,14 +171,11 @@ void Damier::play_up(){
         }
     }
     Spawn();
-    //emit boardChanged();
-
-
+    emit boardChanged();
 }
 
-
 // Quand le joueur joue vers le bas
-void Damier::play_down(){
+void DamierQ::play_down(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
     for(int col=0;col<C;col++){
@@ -192,10 +203,11 @@ void Damier::play_down(){
         }
     }
     Spawn();
+    emit boardChanged();
 }
 
 // Quand le joueur joue vers la gauche
-void Damier::play_left(){
+void DamierQ::play_left(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
     for(int col=0;col<C-1;col++){
@@ -215,18 +227,18 @@ void Damier::play_left(){
                         score+=T[ligne][col+i-1];
                         T[ligne][col+i] = 0;
                         tab_fusion[ligne][col+i-1]= true; // indique que cette case a été fusionné et ne pourra donc plus l'être pour ce play
-                        }
-                    bloque = true;
                     }
+                    bloque = true;
+                }
                 i = i-1;
             }
         }
     }
     Spawn();
+    emit boardChanged();
 }
-
 // Quand le joueur joue vers la droite
-void Damier::play_right(){
+void DamierQ::play_right(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
     for(int col=C-2;col>=0;col--){
@@ -246,20 +258,19 @@ void Damier::play_right(){
                         score+= T[ligne][col+i];
                         T[ligne][col+i-1] = 0;
                         tab_fusion[ligne][col+i]= true; // indique que cette case a été fusionné et ne pourra donc plus l'être pour ce play
-                        }
-                    bloque = true;
                     }
+                    bloque = true;
+                }
                 i = i+1;
             }
         }
     }
     Spawn();
+    emit boardChanged();
 }
 
-
-
-QVector<QVector<int>> Damier::readBoard() const{
-    QVector<QVector<int>> qBoard(L, QVector<int>(L));
+QVector<QVector<int>> DamierQ::readBoard() const{
+    QVector<QVector<int>> qBoard(L, QVector<int>(C));
     for (int i = 0; i < L; i++) {
         for (int j = 0; j < C; j++) {
             qBoard[i][j] = T[i][j];
@@ -268,7 +279,7 @@ QVector<QVector<int>> Damier::readBoard() const{
     return qBoard;
 }
 
-Damier& Damier::operator= (const Damier &D){
+DamierQ& DamierQ::operator= (const DamierQ &D){
     if ( this != &D) { // protection autoréférence
         Free();
         Alloc(D.L, D.C);
@@ -278,3 +289,6 @@ Damier& Damier::operator= (const Damier &D){
     }
     return *this;
 }
+
+
+

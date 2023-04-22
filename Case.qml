@@ -49,8 +49,8 @@ Item {
                 case "512": return "#aaaa55";
                 case "1024": return "#550000";
                 case "2048": return "#ff55aa";
+                default: return "#7A7A7A";
             }
-            return "#ff55aa"
         }
     }
 }
