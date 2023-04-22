@@ -1,20 +1,22 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 
+
 Window {
+
     width: 450
     height: 800
     visible: true
     color: "#f4f0c9"
     title: qsTr("2048")
 
-    Keys.onUpPressed: {
-            BoardGame.play_up();
-            board = BoardGame.getBoard();
-            var qVariantBoard = Qt.binding(function() { return board; });
-            rootObject.setProperty("board", qVariantBoard);
-        }
 
+
+    //property variant boardGame
+
+    property variant board : vueObjetBoardGame.getBoardAsQvector()
+
+/*
     property variant board : [
         [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
         [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
@@ -22,7 +24,7 @@ Window {
         [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)]
     ]
 
-
+*/
 
     Rectangle {
         id: rectangle
@@ -82,8 +84,9 @@ Window {
         height: 420
         color: "#5f4444"
         radius: 10
-
+        //focus: true
         GridView {
+                focus: true
                 id: grid
                 anchors.fill: parent
                 x: 15
@@ -93,13 +96,35 @@ Window {
                 cellWidth: (grid.width) / 4
                 cellHeight: (grid.height) / 4
                 //spacing: 5
-                model: 16
-
+                model: vueObjetBoardGame.getBoardAsQvector().length * vueObjetBoardGame.getBoardAsQvector()[0].length
+               // model : 16
                 delegate: Case {
                     id: myCase
                     item1Width: grid.cellWidth
                     item1Height: grid.cellHeight
-                    text1Text: board[index % 4][Math.floor(index / 4)]
+                    text1Text: board[Math.floor(index / 4)][index % 4]
+                    //text1Text: modelData[index]
+                    Keys.onPressed: function(event){
+                      switch (event.key) {
+                        case Qt.Key_Up:
+                            vueObjetBoardGame.play_up();
+                            board = vueObjetBoardGame.getBoardAsQvector();
+                            //console.log(vueObjetBoardGame.getBoardAsQvector()[0].length)
+                          break;
+                        case Qt.Key_Down:
+                            vueObjetBoardGame.play_down();
+                            board = vueObjetBoardGame.getBoardAsQvector();
+                          break;
+                        case Qt.Key_Right:
+                            vueObjetBoardGame.play_right();
+                            board = vueObjetBoardGame.getBoardAsQvector();
+                            break;
+                        case Qt.Key_Left:
+                            vueObjetBoardGame.play_left();
+                            board = vueObjetBoardGame.getBoardAsQvector();
+                            break;
+                      }
+                    }
                 }
             }
 

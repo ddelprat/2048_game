@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <damier.h>
-
 #include <QLocale>
 #include <QTranslator>
 #include <QGuiApplication>
@@ -13,19 +12,27 @@
 #include <QVariant>
 #include <vector>
 #include <iostream>
+#include <QVector>
+#include <QQmlContext>
+#include <damierq.h>
+
 using namespace std;
-/*
-void playUp(std::vector<std::vector<int>>& board)
-{
-    board.play_up();
-}*/
+
+
 
 
 int main(int argc, char *argv[])
 {
     int taille = 4;
-    Damier BoardGame = Damier(taille, taille, 0);
-    std::vector<std::vector<int>> board = BoardGame.getBoard();
+    DamierQ boardGame = DamierQ(taille,taille,0);
+    boardGame.Print();
+    /*boardGame.Print();
+    boardGame.play_up();
+    boardGame.Print();
+    boardGame.play_right();
+    boardGame.Print();*/
+
+
 
     #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -44,17 +51,21 @@ int main(int argc, char *argv[])
     }
 
     QQmlApplicationEngine engine;
+
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     engine.load(url);
 
-    QObject *rootObject = engine.rootObjects().first();
-    QVariant qVariantBoard = QVariant::fromValue(board);
-    rootObject->setProperty("board", qVariantBoard);
+    engine.rootContext()->setContextProperty("vueObjetBoardGame", &boardGame);
+   // QObject *rootObject = engine.rootObjects().first();
 
-    /*
-    // Ajouter le contexte pour la fonction playUp
-    QQmlContext* context = engine.rootContext();
-    context->setContextProperty("playUp", &playUp);
-*/
+
+
+    /*QVariant qVariantBoardGame = QVariant::fromValue(&boardGame);
+    rootObject->setProperty("boardGame", qVariantBoardGame);*/
+
+    /*QVariant qVariantBoard = QVariant::fromValue(qboard);
+    rootObject->setProperty("board", qVariantBoard);*/
+
+
     return app.exec();
 }

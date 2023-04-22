@@ -1,4 +1,5 @@
 QT += quick
+QT += core
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -6,7 +7,7 @@ QT += quick
 
 SOURCES += \
         damier.cpp \
-        gamelogic.cpp \
+        damierq.cpp \
         gridmodel.cpp \
         main.cpp
 
@@ -33,5 +34,5 @@ DISTFILES += \
 
 HEADERS += \
     damier.h \
-    gamelogic.h \
+    damierq.h \
     gridmodel.h
