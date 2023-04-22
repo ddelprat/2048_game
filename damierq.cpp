@@ -116,6 +116,7 @@ void DamierQ::Spawn(){
         tuple<int,int> indice_0 = case_vide.at(rand() % n); // sinon, on choisit une case au hasard pour y faire apparaitre un 2 ou un 4
         int valeur = (rand() % 2 + 1)*2;
         T[get<0>(indice_0)][get<1>(indice_0)] = valeur;
+        score += valeur;
     }
     //int i_0 = rand() % L;
     //int j_0 = rand() % C;
@@ -142,10 +143,10 @@ QVector<QVector<int>> DamierQ::getBoardAsQvector() const{
 
 }
 
-// Quand le joueur joue vers le haut
 void DamierQ::play_up(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
+    bool hasMovedOrMerged = false; // Variable pour déterminer si un déplacement ou une fusion a été effectué
     for(int col=0;col<C;col++){
         for(int ligne = 0;ligne<L-1;ligne++){
             bool bloque = false;
@@ -155,6 +156,7 @@ void DamierQ::play_up(){
                     if(T[ligne+i][col]!=0){ // si la case est vide pas besoin de traiter, sinon on la déplace
                         T[ligne+i-1][col] = T[ligne+i][col];
                         T[ligne+i][col] = 0;
+                        hasMovedOrMerged = true;
                     }
                 }
                 else{
@@ -163,14 +165,18 @@ void DamierQ::play_up(){
                         score += T[ligne+i-1][col];
                         T[ligne+i][col] = 0;
                         tab_fusion[ligne+i-1][col]= true; // indique que cette case a été fusionné et ne pourra donc plus l'être pour ce play
-                        }
-                    bloque = true;
+                        hasMovedOrMerged = true;
                     }
+                    bloque = true;
+                }
                 i = i-1;
             }
         }
     }
-    Spawn();
+    if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
+        Spawn();
+    }
+    emit scoreChanged();
     emit boardChanged();
 }
 
@@ -178,6 +184,7 @@ void DamierQ::play_up(){
 void DamierQ::play_down(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
+    bool hasMovedOrMerged = false; // Variable pour déterminer si un déplacement ou une fusion a été effectué
     for(int col=0;col<C;col++){
         for(int ligne = L-2;ligne>=0;ligne--){
             bool bloque = false;
@@ -187,6 +194,7 @@ void DamierQ::play_down(){
                     if(T[ligne+i-1][col]!=0){ // si la case est vide pas besoin de traiter, sinon on la déplace
                         T[ligne+i][col] = T[ligne+i-1][col];
                         T[ligne+i-1][col] = 0;
+                        hasMovedOrMerged = true;
                     }
                 }
                 else{
@@ -195,21 +203,24 @@ void DamierQ::play_down(){
                         score+=T[ligne+i][col];
                         T[ligne+i-1][col] = 0;
                         tab_fusion[ligne+i][col]= true; // indique que cette case a été fusionné et ne pourra donc plus l'être pour ce play
-                        }
-                    bloque = true;
+                        hasMovedOrMerged = true;
                     }
+                    bloque = true;
+                }
                 i = i+1;
             }
         }
     }
-    Spawn();
+    if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
+        Spawn();
+    }
     emit boardChanged();
+    emit scoreChanged();
 }
-
-// Quand le joueur joue vers la gauche
 void DamierQ::play_left(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
+    bool hasMovedOrMerged = false; // Variable pour déterminer si un déplacement ou une fusion a été effectué
     for(int col=0;col<C-1;col++){
         for(int ligne = 0;ligne<L;ligne++){
             bool bloque = false;
@@ -219,6 +230,7 @@ void DamierQ::play_left(){
                     if(T[ligne][col+i]!=0){ // si la case est vide pas besoin de traiter, sinon on la déplace
                         T[ligne][col+i-1] = T[ligne][col+i];
                         T[ligne][col+i] = 0;
+                        hasMovedOrMerged = true;
                     }
                 }
                 else{
@@ -227,6 +239,7 @@ void DamierQ::play_left(){
                         score+=T[ligne][col+i-1];
                         T[ligne][col+i] = 0;
                         tab_fusion[ligne][col+i-1]= true; // indique que cette case a été fusionné et ne pourra donc plus l'être pour ce play
+                        hasMovedOrMerged = true;
                     }
                     bloque = true;
                 }
@@ -234,13 +247,17 @@ void DamierQ::play_left(){
             }
         }
     }
-    Spawn();
+    if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
+        Spawn();
+    }
     emit boardChanged();
+    emit scoreChanged();
 }
-// Quand le joueur joue vers la droite
+
 void DamierQ::play_right(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
     vector<vector<bool>> tab_fusion(L,vector<bool>(C, false));
+    bool hasMovedOrMerged = false; // Variable pour déterminer si un déplacement ou une fusion a été effectué
     for(int col=C-2;col>=0;col--){
         for(int ligne = 0;ligne<L;ligne++){
             bool bloque = false;
@@ -250,6 +267,7 @@ void DamierQ::play_right(){
                     if(T[ligne][col+i-1]!=0){ // si la case est vide pas besoin de traiter, sinon on la déplace
                         T[ligne][col+i] = T[ligne][col+i-1];
                         T[ligne][col+i-1] = 0;
+                        hasMovedOrMerged = true;
                     }
                 }
                 else{
@@ -258,6 +276,7 @@ void DamierQ::play_right(){
                         score+= T[ligne][col+i];
                         T[ligne][col+i-1] = 0;
                         tab_fusion[ligne][col+i]= true; // indique que cette case a été fusionné et ne pourra donc plus l'être pour ce play
+                        hasMovedOrMerged = true;
                     }
                     bloque = true;
                 }
@@ -265,9 +284,13 @@ void DamierQ::play_right(){
             }
         }
     }
-    Spawn();
+    if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
+        Spawn();
+    }
     emit boardChanged();
+    emit scoreChanged();
 }
+
 
 QVector<QVector<int>> DamierQ::readBoard() const{
     QVector<QVector<int>> qBoard(L, QVector<int>(C));
@@ -277,6 +300,10 @@ QVector<QVector<int>> DamierQ::readBoard() const{
         }
     }
     return qBoard;
+}
+
+QString DamierQ::getScore(){
+    return QString::number(score);
 }
 
 DamierQ& DamierQ::operator= (const DamierQ &D){
