@@ -4,6 +4,7 @@ import QtQuick.Window 2.15
 
 Window {
 
+
     width: 450
     height: 800
     visible: true
@@ -12,19 +13,11 @@ Window {
 
 
 
-    //property variant boardGame
+    property int score: vueObjetBoardGame.score
+
 
     property variant board : vueObjetBoardGame.getBoardAsQvector()
 
-/*
-    property variant board : [
-        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
-        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
-        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)],
-        [Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4), Math.floor(Math.random() * 4)]
-    ]
-
-*/
 
     Rectangle {
         id: rectangle
@@ -37,13 +30,17 @@ Window {
     }
 
     Rectangle {
-        id: score
+        id: scoreWindow
         x: 191
         y: 15
         width: 112
         height: 56
         color: "#ffffff"
         radius: 10
+        Text {
+                text: "Score: " + score
+                anchors.centerIn: parent
+            }
     }
 
     Rectangle {
@@ -109,7 +106,7 @@ Window {
                         case Qt.Key_Up:
                             vueObjetBoardGame.play_up();
                             board = vueObjetBoardGame.getBoardAsQvector();
-                            //console.log(vueObjetBoardGame.getBoardAsQvector()[0].length)
+                            console.log(vueObjetBoardGame.score)
                           break;
                         case Qt.Key_Down:
                             vueObjetBoardGame.play_down();

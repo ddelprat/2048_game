@@ -22,6 +22,7 @@ public:
     void ReDim(int l, int c, int vd = 0);
     void Spawn();
     Q_INVOKABLE void play_up();
+    Q_INVOKABLE QString getScore();
     Q_INVOKABLE void play_down();
     Q_INVOKABLE void play_left();
     Q_INVOKABLE void play_right();
@@ -31,8 +32,11 @@ public:
     Q_PROPERTY(QVector<QVector<int>> board READ getBoardAsQvector NOTIFY boardChanged)
     Q_INVOKABLE QVector<QVector<int>> readBoard() const;
 
+    Q_PROPERTY(QString score READ getScore NOTIFY scoreChanged)
+
 signals:
     void boardChanged();
+    void scoreChanged();
 
 private:
     int L;

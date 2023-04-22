@@ -26,6 +26,9 @@ int main(int argc, char *argv[])
     int taille = 4;
     DamierQ boardGame = DamierQ(taille,taille,0);
     boardGame.Print();
+    boardGame.play_down();
+    cout <<"score";
+    cout << boardGame.score;
     /*boardGame.Print();
     boardGame.play_up();
     boardGame.Print();
