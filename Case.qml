@@ -25,10 +25,10 @@ Item {
             id: text1
             text: ""
             anchors.centerIn: parent
-            font.pixelSize: Math.min(parent.width, parent.height) * 0.8
             maximumLineCount: 1
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            font.pixelSize: Math.min(parent.width, parent.height) * Math.pow(0.8,text.length)
             font.family: "Arial"
             font.bold: true
             clip: true
@@ -37,18 +37,18 @@ Item {
 
         function valueToColor(value) {
             switch (value) {
-                case "0": return "#7A7A7A";
-                case "2": return "#ffff55";
-                case "4": return "#ff5555";
-                case "8": return "#5555ff";
-                case "16": return "#ffaa55";
-                case "32": return "#55ff55";
-                case "64": return "#aa5500";
-                case "128": return "#ff55ff";
-                case "256": return "#5500aa";
-                case "512": return "#aaaa55";
+                case "0": return "#CCC1B2";
+                case "2": return "#EDE5DB";
+                case "4": return "#ede0c8";
+                case "8": return "#f2b178";
+                case "16": return "#f59562";
+                case "32": return "#f67c5e";
+                case "64": return "#f65e3c";
+                case "128": return "#eed072";
+                case "256": return "#edcc5f";
+                case "512": return "#ecc84f";
                 case "1024": return "#550000";
-                case "2048": return "#ff55aa";
+                case "2048": return "#edc22e";
                 default: return "#7A7A7A";
             }
         }

@@ -78,6 +78,7 @@ void DamierQ::Init(){
         for(int j=0; j<C; j++)
             T[i][j]= 0;
     score = 0;
+    best = 0;
     srand(time(0));
     int i_0 = rand() % L;
     int j_0 = rand() % C;
@@ -109,7 +110,8 @@ void DamierQ::Spawn(){
     }
     int n = case_vide.size();
     if(n==0){
-        loose = true; // si aucune case n'et libre, la partie est perdue
+        loose = 1; // si aucune case n'et libre, la partie est perdue
+        emit looseChanged();
     }
     else{
         srand(time(0)); // On choisit le temps comme seed pour le random generator pour ne pas avoir toujours la même séquence
@@ -291,6 +293,27 @@ void DamierQ::play_right(){
     emit scoreChanged();
 }
 
+void DamierQ::restart(){
+    if(score>best){
+        best = score;
+    }
+    for(int i=0; i<L; i++){
+            for(int j=0; j<C; j++){
+                T[i][j]= 0;
+            }
+        }
+    score = 0;
+    srand(time(0));
+    int i_0 = rand() % L;
+    int j_0 = rand() % C;
+    int valeur = (rand() % 2 + 1)*2;
+    T[i_0][j_0] = valeur;
+    emit boardChanged();
+    emit scoreChanged();
+    emit bestChanged();
+
+}
+
 
 QVector<QVector<int>> DamierQ::readBoard() const{
     QVector<QVector<int>> qBoard(L, QVector<int>(C));
@@ -304,6 +327,14 @@ QVector<QVector<int>> DamierQ::readBoard() const{
 
 QString DamierQ::getScore(){
     return QString::number(score);
+}
+
+QString DamierQ::getBest(){
+    return QString::number(best);
+}
+
+QString DamierQ::getLoose(){
+    return QString::number(loose);
 }
 
 DamierQ& DamierQ::operator= (const DamierQ &D){
