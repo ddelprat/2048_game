@@ -16,12 +16,13 @@ public:
     DamierQ& operator=  (const DamierQ &D); // opérateur d'affectation
     int score;
     int best;
-    int loose = 0;
+    int loose = 0; // loose = 1 : la partie est perdue
     void Print();
     void Init();
     void Set(int x, int y, int value);
     void ReDim(int l, int c, int vd = 0);
     void Spawn();
+    void GameOver();
     Q_INVOKABLE void play_up();
     Q_INVOKABLE QString getScore();
     Q_INVOKABLE QString getBest();

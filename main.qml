@@ -149,16 +149,6 @@ Window {
     }
 
     Rectangle {
-        id: undo
-        x: 318
-        y: 83
-        width: 112
-        height: 56
-        color: "#ffffff"
-        radius: 10
-    }
-
-    Rectangle {
         id: rectangle1
         x: 15
         y: 190
@@ -252,6 +242,9 @@ Window {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.family: "Tahoma"
-        opacity: 1 - loose
+        visible: if(loose==0){
+                     false}
+                else{
+                     true}
     }
 }

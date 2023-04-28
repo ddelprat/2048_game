@@ -109,19 +109,48 @@ void DamierQ::Spawn(){
         }
     }
     int n = case_vide.size();
-    if(n==0){
+    // on sait que n>0 car la fonction est appelé que dans le cas ou le plateau a bougé
+    srand(time(0)); // On choisit le temps comme seed pour le random generator pour ne pas avoir toujours la même séquence
+    tuple<int,int> indice_0 = case_vide.at(rand() % n); // sinon, on choisit une case au hasard pour y faire apparaitre un 2 ou un 4
+    int valeur = (rand() % 2 + 1)*2;
+    T[get<0>(indice_0)][get<1>(indice_0)] = valeur;
+    score += valeur;
+    //int i_0 = rand() % L;
+    //int j_0 = rand() % C;
+}
+
+// determine si la partie est perdue ou non
+void DamierQ::GameOver(){
+    bool perdu = true;
+    int i = 0;
+    while(i<L && perdu==true){
+        int j = 0;
+        while(j<C && perdu==true){
+            if(T[i][j]!=0){
+                if(i>0){
+                    if(T[i-1][j]==T[i][j]){perdu=false;}
+                }
+                if(i<L-1){
+                    if(T[i+1][j]==T[i][j]){perdu=false;}
+                }
+                if(j>0){
+                    if(T[i][j-1]==T[i][j]){perdu=false;}
+                }
+                if(j<C-1){
+                    if(T[i][j+1]==T[i][j]){perdu=false;}
+                }
+            }
+            else{
+                perdu = false;
+            }
+            j++;
+        }
+        i++;
+    }
+    if(perdu){
         loose = 1; // si aucune case n'et libre, la partie est perdue
         emit looseChanged();
     }
-    else{
-        srand(time(0)); // On choisit le temps comme seed pour le random generator pour ne pas avoir toujours la même séquence
-        tuple<int,int> indice_0 = case_vide.at(rand() % n); // sinon, on choisit une case au hasard pour y faire apparaitre un 2 ou un 4
-        int valeur = (rand() % 2 + 1)*2;
-        T[get<0>(indice_0)][get<1>(indice_0)] = valeur;
-        score += valeur;
-    }
-    //int i_0 = rand() % L;
-    //int j_0 = rand() % C;
 }
 
 std::vector<std::vector<int>> DamierQ::getBoard() const {
@@ -144,6 +173,8 @@ QVector<QVector<int>> DamierQ::getBoardAsQvector() const{
     return qBoard;
 
 }
+
+
 
 void DamierQ::play_up(){
     // On créer un vecteur qui mémorise si la case a déjà fusionné, auquel cas elle ne peut pas fusionner à nouveau
@@ -175,12 +206,14 @@ void DamierQ::play_up(){
             }
         }
     }
-    if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
+    if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué, il y a donc au moins une case libre
         Spawn();
     }
+    GameOver();
     emit scoreChanged();
     emit boardChanged();
 }
+
 
 // Quand le joueur joue vers le bas
 void DamierQ::play_down(){
@@ -216,6 +249,7 @@ void DamierQ::play_down(){
     if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
         Spawn();
     }
+    GameOver();
     emit boardChanged();
     emit scoreChanged();
 }
@@ -252,6 +286,7 @@ void DamierQ::play_left(){
     if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
         Spawn();
     }
+    GameOver();
     emit boardChanged();
     emit scoreChanged();
 }
@@ -289,6 +324,7 @@ void DamierQ::play_right(){
     if (hasMovedOrMerged) { // On ne crée une nouvelle case que si un déplacement ou une fusion a été effectué
         Spawn();
     }
+    GameOver();
     emit boardChanged();
     emit scoreChanged();
 }
@@ -303,14 +339,17 @@ void DamierQ::restart(){
             }
         }
     score = 0;
+    loose = 0;
     srand(time(0));
     int i_0 = rand() % L;
     int j_0 = rand() % C;
     int valeur = (rand() % 2 + 1)*2;
     T[i_0][j_0] = valeur;
+
     emit boardChanged();
     emit scoreChanged();
     emit bestChanged();
+    emit looseChanged();
 
 }
 
