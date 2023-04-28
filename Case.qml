@@ -49,7 +49,7 @@ Item {
                 case "512": return "#ecc84f";
                 case "1024": return "#550000";
                 case "2048": return "#edc22e";
-                default: return "#7A7A7A";
+                default: return "#edc22e";
             }
         }
     }

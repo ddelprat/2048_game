@@ -181,7 +181,7 @@ Window {
                         case Qt.Key_Up:
                             vueObjetBoardGame.play_up();
                             board = vueObjetBoardGame.getBoardAsQvector();
-                            console.log(vueObjetBoardGame.score)
+                            //console.log(vueObjetBoardGame.score)
                           break;
                         case Qt.Key_Down:
                             vueObjetBoardGame.play_down();

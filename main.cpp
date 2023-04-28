@@ -28,11 +28,11 @@ int main(int argc, char *argv[])
     boardGame.Print();
     boardGame.restart();
     boardGame.play_down();
-    cout <<"score";
+    /*cout <<"score";
     cout << boardGame.score;
     cout <<"best";
     cout << boardGame.best;
-    /*boardGame.Print();
+    boardGame.Print();
     boardGame.play_up();
     boardGame.Print();
     boardGame.play_right();
